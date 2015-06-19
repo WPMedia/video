@@ -7,10 +7,10 @@
       <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
-          <h1 class="page-header">Dashboard - Notes</h1>
+          <h1 class="page-header">Dashboard - Video Headlines</h1>
           
           <div class="col-sm-12">
-            Hello welcome to your notes.  You can search below.
+            Hello welcome to Video Headlines.  You can search below.
           </div>
           <br><br>
           <form class="col-md-12 form-group input-group-lg">
@@ -29,19 +29,19 @@
                     </a>
                   </th>
                   <th>
-                    Author
+                    URL
                   </th>
                   <th>
-                    Created Date
+                    Summary
                   </th>
-                  <th>Delete Note</th>
+                  <th>Remove Article</th>
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="note in userNotes | filter:query | unique: '_id' | orderBy:sortType:sortReverse">
-                  <td>{{ note.title }}</td>
-                  <td>{{ note.body }}</td>
-                  <td>{{ note._id | creationDate | date:'MMM d, y h:mm:ss a' }}</td>
+                <tr ng-repeat="follow in follows | filter:query | unique: '_id' | orderBy:sortType:sortReverse">
+                  <td>{{ follow.articleData.title }}</td>
+                  <td>{{ follow.articleData.short_url }}</td>
+                  <td>{{ follow.articleData.summary }}</td>
                   <td>
                     <button class="btn btn-link" type="submit" ng-click="removeNote(note._id)"><i class="fa fa-times"></i></button>
                   </td>

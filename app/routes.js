@@ -1,7 +1,7 @@
  // app/routes.js
 
 // grab the notes model
-var UserNotes = require('./models/notes');
+var headlines = require('./models/headlines');
 
     module.exports = function(app) {
 

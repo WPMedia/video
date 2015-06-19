@@ -19,15 +19,15 @@ $scope.filterFunction = function(element) {
 	return element.name.match(/^Ma/) ? true : false;
 };
 
-// Get Notes
+// Get Shares
 $scope.getNotes = function(value) {
-	$scope.uid = value;
+  $scope.uid = value;
     config ={};
 
-    $http.get("/api/notes/" + $scope.uid, config, {}).
-  		success(function(data) {
-    	$scope.userNotes = data.notes;
-    	console.log($scope.userNotes);
+    $http.get("http://wp-postshareapi-glassfish-prod-a.wpprivate.com:9001/api/data/mostfollows/2015/4/7/7/7/1/all/all/5", config, {}).
+      success(function(data) {
+      $scope.follows = data.sortedFollows;
+      console.log($scope.follows);
     });
 }
 

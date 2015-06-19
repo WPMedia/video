@@ -16,6 +16,10 @@ var db = require('./config/db');
 // set our port
 var port = process.env.PORT || 3000; 
 
+// Image and Graphic Magic
+var fs = require('fs')
+  , gm = require('gm').subClass({imageMagick: true});
+
 // connect to our mongoDB database 
 // (uncomment after you enter in your own credentials in config/db.js)
 // mongoose.connect(db.url); 
