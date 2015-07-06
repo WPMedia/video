@@ -10,7 +10,7 @@
           <h1 class="page-header">Dashboard - Video Headlines</h1>
           
           <div class="col-sm-12">
-            Hello welcome to Video Headlines.  You can search below.
+            Video Headlines and Summaries below.
           </div>
           <br><br>
           <form class="col-md-12 form-group input-group-lg">
@@ -22,26 +22,26 @@
               <thead>
                 <tr>
                   <th>
-                    <a href="#" ng-click="sortType = 'title'; sortReverse = !sortReverse">
+                    <a href="#" ng-click="sortType = 'follow.articleData.title'; sortReverse = !sortReverse">
                       Title
-                      <span ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-up"></span>
-                      <span ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-down"></span>
+                      <span ng-show="sortType == 'follow.articleData.title' && !sortReverse" class="fa fa-caret-up"></span>
+                      <span ng-show="sortType == 'follow.articleData.title' && sortReverse" class="fa fa-caret-down"></span>
                     </a>
-                  </th>
-                  <th>
-                    URL
                   </th>
                   <th>
                     Summary
                   </th>
-                  <th>Remove Article</th>
+                  <th>
+                    URI
+                  </th>
+                  <th>Delete Note</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="follow in follows | filter:query | unique: '_id' | orderBy:sortType:sortReverse">
                   <td>{{ follow.articleData.title }}</td>
-                  <td>{{ follow.articleData.short_url }}</td>
                   <td>{{ follow.articleData.summary }}</td>
+                  <td>{{ follow.uri }}</td>
                   <td>
                     <button class="btn btn-link" type="submit" ng-click="removeNote(note._id)"><i class="fa fa-times"></i></button>
                   </td>
