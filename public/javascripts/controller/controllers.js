@@ -60,5 +60,54 @@ $scope.removeHeadline = function(value) {
     });
 }
 
+// Obtain Image Size
+$scope.getSize = function(){
+  $http.get('/gm/size')
+  .success(function(data){
+    $scope.imgSize = (data.image);
+    window.console.log($scope.imgSize);
+  })
+  .error(function(data){
+    window.console.log(data + status);
+  });
+}
+
+// Resize Image
+$scope.resize = function(){
+  $http.get('/gm/resize')
+  .success(function(data){
+    $scope.imagInfo = (data);
+    window.console.log($scope.imagInfo);
+  })
+  .error(function(data){
+    window.console.log(data + status);
+  });
+}
+
+// Create Image X,Y
+$scope.createXY = function(){
+  $http.get('/gm/createXY')
+  .success(function(data){
+    $scope.imagInfo = (data);
+    window.console.log($scope.imagInfo);
+  })
+  .error(function(data){
+    window.console.log(data + status);
+  });
+}
+
+// Create Image X,Y
+$scope.create = function(){
+  $http.get('/gm/create')
+  .success(function(data){
+    $scope.imagInfo = (data);
+    window.console.log($scope.imagInfo);
+  })
+  .error(function(data){
+    window.console.log(data + status);
+  });
+}
+
+
 
 });
