@@ -32,16 +32,20 @@
                     Summary
                   </th>
                   <th>
-                    URI
+                    Count
                   </th>
-                  <th>Delete Note</th>
+                  <th>
+                    Image
+                  </th>
+                  <th>Delete Headline</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="follow in headlines | filter:query | unique: '_id' | orderBy:sortType:sortReverse">
-                  <td>{{ follow.articleData.title }}</td>
+                  <td><a href="{{follow.url}}" target="_blank">{{ follow.articleData.title }}</a></td>
                   <td>{{ follow.articleData.summary }}</td>
-                  <td>{{ follow.uri }}</td>
+                  <td>{{ follow.count }}</td>
+                  <td><a href="https://cdn.tutsplus.com/net/uploads/legacy/958_placeholders/placehold.gif" target="_blank"><img src="https://cdn.tutsplus.com/net/uploads/legacy/958_placeholders/placehold.gif" height="42" width="42"></a></td>
                   <td>
                     <button class="btn btn-link" type="submit" ng-click="removeHeadline(follow._id)"><i class="fa fa-times"></i></button>
                   </td>

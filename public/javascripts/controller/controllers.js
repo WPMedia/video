@@ -22,7 +22,7 @@ $scope.filterFunction = function(element) {
 // Get Shares and Save to DB
 $scope.captureHeadlines = function() {
     config ={};
-    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/7/7/7/1/all/all/5", config, {}).
+    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/5/7/7/7/1/all/all/5", config, {}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';
