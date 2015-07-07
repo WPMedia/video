@@ -20,79 +20,40 @@ $scope.filterFunction = function(element) {
 };
 
 // Get Shares and Save to DB
-$scope.captureHeadlines = function(value) {
-  $scope.uid = value;
+$scope.captureHeadlines = function() {
     config ={};
     $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/7/7/7/1/all/all/5", config, {}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
-      console.log($scope.follows);
       var url = '/api/captureHeadlines/';
       $http.post(url, {headlines: $scope.follows})
         .success(function(data){
-          window.console.log(data);
+          // window.console.log(data);
+          $scope.headlines = data;
         })
         .error(function(data,status){
-          window.console.log(data + status);
+          // window.console.log(data + status);
       });
     });
 }
 
-
 // Get Shares
-$scope.getHeadlines = function(value) {
-  $scope.uid = value;
+$scope.getHeadlines = function() {
     config ={};
-    $http.get("", config, {}).
+    $http.get("/api/headlines", config, {}).
       success(function(data) {
-      $scope.follows = data.sortedFollows;
-      console.log($scope.follows);
+      $scope.headlines = data.all;
     });
 }
 
-// Old - delete in future
-// $scope.getNotes = function(value) {
-//   $scope.uid = value;
-//     config ={};
-//     $http.get("http://wp-postshareapi-glassfish-prod-a.wpprivate.com:9001/api/data/mostfollows/2015/5/7/7/7/1/all/all/5", config, {}).
-//       success(function(data) {
-//       $scope.follows = data.sortedFollows;
-//       console.log($scope.follows);
-//     });
-// }
-
-// Single Note
-$scope.singleNote = function(value) {
-    $scope.id = value;
-    config ={};
-    $http.get("/api/notes/single/" + $scope.id, config, {}).
-      success(function(data) {
-      $scope.userNote = data.userNote;
-      console.log($scope.userNote);
-    });
-}
-
-
-// Add Note
-$scope.addNote = function() {
-	var url = '/api/removeFavorite/';
-	$http.post(url)
-    .success(function(data){
-      window.console.log(data);
-    })
-    .error(function(data,status){
-      window.console.log(data + status);
-    });
-}
-
-// Remove Note
-$scope.removeNote = function(value) {
+// Remove Headline
+$scope.removeHeadline = function(value) {
   // value is the note id
-	var url = '/api/removeNote/'+ value;
+	var url = '/api/removeHeadline/'+ value;
 	$http.delete(url)
     .success(function(data){
       window.console.log(data);
-      $scope.getNotes();
+      $scope.getHeadlines();
     })
     .error(function(data,status){
       window.console.log(data + status);

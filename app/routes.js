@@ -8,15 +8,14 @@ var headlines = require('./models/headlines');
         // Server routes.  Handles api calls, authentication etc
 
         // get all api call
-        app.get('/api/notes', function(req, res) {
+        app.get('/api/headlines', function(req, res) {
             // use mongoose to get all notes in the database
-            // console.log('get notes');
-            UserNotes.find(function(err, notes) {
+            headlines.find(function(err, headlines) {
                 // if there is an error retrieving, send the error. 
                 // nothing after res.send(err) will execute
                 if (err)
                     res.send(err);
-                res.json({ all : notes }); // return all notes in JSON format
+                res.json({ all : headlines }); // return all notes in JSON format
             });
         });
 
@@ -35,34 +34,33 @@ var headlines = require('./models/headlines');
         // route to handle creating (app.post)
         app.post('/api/captureHeadlines', function(req, res) { 
 
-            var newHeadlines = req.body;
-
-            // var potatoBag = [{name:'potato1'}, {name:'potato2'}];
+            var newHeadlines = req.body.headlines;
 
             console.log(newHeadlines);
 
             headlines.collection.insert(newHeadlines, onInsert);
 
-            function onInsert(err, docs) {
+            function onInsert(err, data) {
                 if (err) {
-                    console.log('error');
+                    // console.log('error');
                 } else {
                     console.info('%d headlines were successfully stored.', docs.length);
-                    console.log('win');
+                    // console.log('win');
+                    res.json({ headlines: data });
                 }
             }
 
         });
         
         // route to handle delete goes here based on object _id (app.delete)
-        app.delete('/api/removeNote/:_id', function(req, res) { 
+        app.delete('/api/removeHeadline/:_id', function(req, res) { 
             
-        UserNotes.remove({
+        headlines.remove({
             _id: req.params._id,
             }, function(err, note) {
                 if (err)
                     res.send(err);
-                res.json({ message: 'Successfully removed note'});
+                res.json({ message: 'Successfully removed headline'});
             });
         });
 

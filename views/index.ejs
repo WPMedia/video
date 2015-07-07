@@ -3,7 +3,7 @@
   <% include partials/nav.ejs %>  
   <body ng-controller="notesCtrl">
   <% include partials/sidebar.ejs %>  
-    <div class="container-fluid" ng-init="getNotes()">
+    <div class="container-fluid" ng-init="getHeadlines()">
       <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
@@ -38,12 +38,12 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="follow in follows | filter:query | unique: '_id' | orderBy:sortType:sortReverse">
+                <tr ng-repeat="follow in headlines | filter:query | unique: '_id' | orderBy:sortType:sortReverse">
                   <td>{{ follow.articleData.title }}</td>
                   <td>{{ follow.articleData.summary }}</td>
                   <td>{{ follow.uri }}</td>
                   <td>
-                    <button class="btn btn-link" type="submit" ng-click="removeNote(note._id)"><i class="fa fa-times"></i></button>
+                    <button class="btn btn-link" type="submit" ng-click="removeHeadline(follow._id)"><i class="fa fa-times"></i></button>
                   </td>
                 </tr>
               </tbody>
