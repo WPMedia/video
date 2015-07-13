@@ -76,8 +76,11 @@ var gs = require('gs');
                     app.get('/gm/size', function(req, res) {
                         // output all available image properties
                         var img = ('/nats.jpg');
-                        gm('http://localhost:3000/images' + img)
+                        gm('public/images' + img)
                         .size(function (err, size) {
+                            if(err){
+                                console.log(err);
+                            }
                           if (!err)
                             console.log(size);
                             res.json({ image: size });
@@ -87,31 +90,87 @@ var gs = require('gs');
                     // Resize Image
                     app.get('/gm/resize', function(req, res) {
                         var img = ('/nats.jpg');
-                        gm('http://localhost:3000/images' + img)
+                        gm('public/images' + img)
                         .flip()
                         .magnify()
                         .rotate('green', 45)
                         .blur(7, 3)
                         .crop(300, 300, 150, 130)
                         .edge(3)
-                        .write('http://localhost:3000/images/nats.jpg', function (err) {
+                        .write('public/images/nats2.jpg', function (err) {
                           if (err) console.log('crazytown has not arrived ' + err);
                         })
                     });
 
-                    // Create Image X,Y
-                    app.get('/gm/createXY', function(req, res) {
-                        gm("img.png").drawText(x, y, text [100, 100, 'gravity'])
+                    // Create Image
+                    app.post('/gm/create', function(req, res) {
+                        var text = req.body.text;
+                        var id = req.body.id;
+                        console.log(text);
+                        gm(800, 40, "#fff")
+                        .font("Helvetica.ttf", 32)
+                        .drawText(10, 30, text)
+                        .write("public/images/create/"+text+".png", function (err) {
+                          if (err) console.log(err);
+                        });
+                      //   Sub.findOne({ _id: sub._id }, function (err, doc){
+                      //     if (err || !doc) {
+                      //       res.json({ error : err });
+                      //     } else {
+                      //       //get this submission's status before the update. This decides whether we send an email notification
+                      //       var originalStatus = doc.submitted;
+                      //       //Add new mediasets. Do not overwrite existing mediasets!
+                      //       for(var i=0; sub.mediasets.length > i; i++){
+                      //         var exists = false;
+                      //         for(var c=0; doc.mediasets.length > c; c++){
+                      //           if(doc.mediasets[c] != null && sub.mediasets[i] != null && doc.mediasets[c].mediasetId == sub.mediasets[i].mediasetId){ exists = true; }
+                      //         }
+                      //         if(!exists && sub.mediasets[i]){
+                      //           doc.mediasets.push(sub.mediasets[i]);
+                      //         }
+                      //       }
+
+                      //       doc.formData = sub.formData;    
+                      //       //doc.mediasets = sub.mediasets;    
+                      //       doc.tags = sub.tags;
+                      //       doc.submitted = sub.submitted;       
+                      //       doc.cookies = sub.cookies; 
+                      //       doc.save();
+                      //       console.log("Action='update submission' SubId="+sub._id+" Status=success");
+                      //       //If this sub's submitted status was false and now it's true, send a notification email  
+                      //       if(!originalStatus && sub.submitted) {
+                      //         sendSubmissionNotification(doc, App, User, ses, messages, applicationBase); 
+                      //       }     
+                      //       res.json({ submissionInfo : doc });
+                      //     }
+
+                      //   });
+                      // };
                     });
 
-                    // Create Image
-                    app.get('/gm/create', function(req, res) {
-                        gm(200, 400, "#ddff99f3")
-                        .drawText(10, 50, "from scratch")
-                        .write("/path/to/brandNewImg.jpg", function (err) {
-                          // ...
+                    // Montage
+                    app.post('/gm/montage', function(req, res) {
+                        gm('public/images/create/montage.png')
+                        .montage('public/images/create/1.png')
+                        .geometry('+100+150')
+                        .write('public/images/create/montage.png', function(err) {
+                            if(err) console.log(err);
                         });
                     });
+
+                    // Annotate
+                    app.get('/gm/annotate', function(req, res) {
+                        // annotate an image
+                        gm('public/images/nats.jpg')
+                        .stroke("#ffffff")
+                        .drawCircle(10, 10, 20, 10)
+                        .font("Helvetica.ttf", 12)
+                        .drawText(300, 20, "Hi Kat!")
+                        .write("public/images/annotate.png", function (err) {
+                          if (err) console.log(err);
+                        });
+                    });
+                    
 
         // Frontend routes 
 

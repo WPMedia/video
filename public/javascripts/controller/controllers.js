@@ -84,9 +84,11 @@ $scope.resize = function(){
   });
 }
 
-// Create Image X,Y
-$scope.createXY = function(){
-  $http.get('/gm/createXY')
+// Create Image
+$scope.create = function(text, id){
+  window.console.log(text, id);
+  var headline = {'id': id, 'text': text}
+  $http.post('/gm/create', headline)
   .success(function(data){
     $scope.imagInfo = (data);
     window.console.log($scope.imagInfo);
@@ -96,9 +98,22 @@ $scope.createXY = function(){
   });
 }
 
-// Create Image X,Y
-$scope.create = function(){
-  $http.get('/gm/create')
+// Montage
+$scope.montage = function(){
+  console.log('montage');
+  $http.post('/gm/montage')
+  .success(function(data){
+    $scope.imagInfo = (data);
+    window.console.log($scope.imagInfo);
+  })
+  .error(function(data){
+    window.console.log(data + status);
+  });
+}
+
+// Flip Image
+$scope.annotate = function(){
+  $http.get('/gm/annotate')
   .success(function(data){
     $scope.imagInfo = (data);
     window.console.log($scope.imagInfo);
