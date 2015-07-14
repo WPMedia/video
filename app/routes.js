@@ -59,14 +59,24 @@ var gs = require('gs');
                     });
                     
                     // route to handle delete goes here based on object _id (app.delete)
-                    app.delete('/api/removeHeadline/:_id', function(req, res) { 
-                        
-                    headlines.remove({
-                        _id: req.params._id,
-                        }, function(err, note) {
-                            if (err)
-                                res.send(err);
-                            res.json({ message: 'Successfully removed headline'});
+                    app.delete('/api/removeHeadline/:_id', function(req, res) {
+                        headlines.remove({
+                          _id: req.params._id,
+                            }, function(err, note) {
+                              if (err)
+                                  res.send(err);
+                              res.json({ message: 'Successfully removed headline'});
+                        });
+                    });
+
+
+                    // route to delete all headlines
+                    app.delete('/api/resetHeadlines/all', function(req, res) {
+                        headlines.remove({
+                            }, function(err, note) {
+                              if (err)
+                                  res.send(err);
+                              res.json({ message: 'Successfully removed headline'});
                         });
                     });
 

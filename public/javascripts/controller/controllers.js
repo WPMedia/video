@@ -48,12 +48,24 @@ $scope.getHeadlines = function() {
 
 // Remove Headline
 $scope.removeHeadline = function(value) {
-  // value is the note id
+  // value is the headline id
 	var url = '/api/removeHeadline/'+ value;
 	$http.delete(url)
     .success(function(data){
       window.console.log(data);
       $scope.getHeadlines();
+    })
+    .error(function(data,status){
+      window.console.log(data + status);
+    });
+}
+
+// Delete All Headlines
+$scope.resetHeadlines = function() {
+  var url = '/api/resetHeadlines/all';
+  $http.delete(url)
+    .success(function(data){
+      window.console.log(data);
     })
     .error(function(data,status){
       window.console.log(data + status);
