@@ -4,9 +4,12 @@
 var headlines = require('./models/headlines');
 
 // include GraphicsMagick and Filesystem
-var fs = require('fs');
-var gm = require('gm');
+var fs = require('fs-extra')
+var im = require('imagemagick');
+var gm = require('gm').subClass({imageMagick: true});
 var gs = require('gs');
+var ffmpeg = require('fluent-ffmpeg');
+var command = ffmpeg();
 
 
     module.exports = function(app) {
@@ -27,7 +30,6 @@ var gs = require('gs');
 
                     // get single note api call
                     app.get('/api/notes/single/:_id', function(req, res) {
-                        // use mongoose to get all nerds in the database
                         UserNotes.findOne({
                             _id: req.params._id
                             }, function(err, note) {
@@ -60,6 +62,12 @@ var gs = require('gs');
                     
                     // route to handle delete goes here based on object _id (app.delete)
                     app.delete('/api/removeHeadline/:_id', function(req, res) {
+
+                        // delete old image file
+                        var filePath = "public/images/create/"+req.params._id+".png" ; 
+                        fs.unlinkSync(filePath);
+
+                        // delete headline from DB
                         headlines.remove({
                           _id: req.params._id,
                             }, function(err, note) {
@@ -72,15 +80,22 @@ var gs = require('gs');
 
                     // route to delete all headlines
                     app.delete('/api/resetHeadlines/all', function(req, res) {
+
+                        // delete old headline images
+                        fs.emptyDir('public/images/create', function (err) {
+                          if (!err) console.log('success!')
+                        })
+
+                        // Empty Collection in Mongo
                         headlines.remove({
                             }, function(err, note) {
                               if (err)
                                   res.send(err);
-                              res.json({ message: 'Successfully removed headline'});
+                              res.json({ message: 'Successfully emptied collection'});
                         });
                     });
 
-        // GraphicMagik Routes
+        // GraphicsMagik Routes
             
                     // Test Get Image Size
                     app.get('/gm/size', function(req, res) {
@@ -95,6 +110,7 @@ var gs = require('gs');
                             console.log(size);
                             res.json({ image: size });
                         });
+                        res.json({ message : 'successfully created image' });
                     });
 
                     // Resize Image
@@ -110,64 +126,56 @@ var gs = require('gs');
                         .write('public/images/nats2.jpg', function (err) {
                           if (err) console.log('crazytown has not arrived ' + err);
                         })
+                        res.json({ message : 'successfully created image' });
                     });
 
                     // Create Image
                     app.post('/gm/create', function(req, res) {
                         var text = req.body.text;
-                        var id = req.body.id;
-                        console.log(text);
-                        gm(800, 40, "#fff")
+                        var imgId = req.body.id;
+                        console.log(imgId);
+                        gm(800, 40, "Transparent")
                         .font("Helvetica.ttf", 32)
                         .drawText(10, 30, text)
-                        .write("public/images/create/"+text+".png", function (err) {
-                          if (err) console.log(err);
+                        .write("public/images/create/"+imgId+".png", function (err, value) {
+                          if(err){
+                                console.log(err);
+                            }
+                          if (!err)
+                            console.log(value);
                         });
-                      //   Sub.findOne({ _id: sub._id }, function (err, doc){
-                      //     if (err || !doc) {
-                      //       res.json({ error : err });
-                      //     } else {
-                      //       //get this submission's status before the update. This decides whether we send an email notification
-                      //       var originalStatus = doc.submitted;
-                      //       //Add new mediasets. Do not overwrite existing mediasets!
-                      //       for(var i=0; sub.mediasets.length > i; i++){
-                      //         var exists = false;
-                      //         for(var c=0; doc.mediasets.length > c; c++){
-                      //           if(doc.mediasets[c] != null && sub.mediasets[i] != null && doc.mediasets[c].mediasetId == sub.mediasets[i].mediasetId){ exists = true; }
-                      //         }
-                      //         if(!exists && sub.mediasets[i]){
-                      //           doc.mediasets.push(sub.mediasets[i]);
-                      //         }
-                      //       }
-
-                      //       doc.formData = sub.formData;    
-                      //       //doc.mediasets = sub.mediasets;    
-                      //       doc.tags = sub.tags;
-                      //       doc.submitted = sub.submitted;       
-                      //       doc.cookies = sub.cookies; 
-                      //       doc.save();
-                      //       console.log("Action='update submission' SubId="+sub._id+" Status=success");
-                      //       //If this sub's submitted status was false and now it's true, send a notification email  
-                      //       if(!originalStatus && sub.submitted) {
-                      //         sendSubmissionNotification(doc, App, User, ses, messages, applicationBase); 
-                      //       }     
-                      //       res.json({ submissionInfo : doc });
-                      //     }
-
-                      //   });
-                      // };
+                        // headlines.findOne({ _id: '55a51c73ef52cb308929d334' }, function (err, doc){
+                        //   console.log(doc);
+                        //   doc.imageUrl = 'public/images/create/'+doc._id+'.png'; 
+                        //   doc.name = 'jason borne';
+                        //   doc.save();
+                        // })
+                        res.json({ message : 'successfully created image' });
                     });
 
-                    // Montage
+                    // Montage GraphicMagik
                     app.post('/gm/montage', function(req, res) {
-                        gm('public/images/create/montage.png')
-                        .montage('public/images/create/1.png')
+
+                        // delete old montage file
+                        var filePath = "public/images/final/montage.png" ; 
+                        fs.unlinkSync(filePath);
+
+                        // // creating an image for montage canvas
+                        // gm(1600, 1200, "#FFF")
+                        // .write("public/images/final/montage.png", function (err) {
+                        //   // chill out and relax
+                        // });
+
+                        gm()
+                        .montage('public/images/create/*.png')
                         .geometry('+100+150')
-                        .write('public/images/create/montage.png', function(err) {
+                        .write('public/images/final/montage.png', function(err) {
                             if(err) console.log(err);
                         });
+                        res.json({ message : 'successfully created montage' });
                     });
 
+                    
                     // Annotate
                     app.get('/gm/annotate', function(req, res) {
                         // annotate an image
@@ -179,9 +187,41 @@ var gs = require('gs');
                         .write("public/images/annotate.png", function (err) {
                           if (err) console.log(err);
                         });
+                        res.json({ message : 'successfully created image' });
+                    });
+
+                    // Montage ImageMagick
+                    app.post('/im/montage', function(req, res) {
+                      im.montage(['public/images/create/*.png', '-geometry', '+3+3', 'public/images/create/sprites.png'],
+                        function(err, metadata){
+                            if (err) throw err
+                            console.log('stdout:', stdout);
+                      });
+                      res.json({ message : 'successfully created image' });
                     });
                     
+        // FFMpeg routes
 
+                    app.post('/ff/create', function(req, res) {
+                        // make sure you set the correct path to your video file
+                        ffmpeg('public/images/final/montage.png')
+                          // loop for 5 seconds
+                          .loop(5)
+                          // using 25 fps
+                          .fps(25)
+                          // setup event handlers
+                          .on('end', function() {
+                            console.log('file has been converted succesfully');
+                          })
+                          .on('error', function(err) {
+                            console.log('an error happened: ' + err.message);
+                          })
+                          // save to file
+                          .save('public/images/final/video.m4v');
+                          //Success!
+                          res.json({ message : 'successfully created video' });
+                    });
+                             
         // Frontend routes 
 
                     // route to handle root request

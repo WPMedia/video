@@ -7,10 +7,12 @@ var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var path 		   = require('path');
 var mongoose   	   = require('mongoose');
-var gm 			   = require('gm');
-var fs 			   = require('fs');
+var gm 			   = require('gm').subClass({imageMagick: true});
+var fs 			   = require('fs-extra')
 var im 			   = require('imagemagick');
 var gs 			   = require('gs');
+var ffmpeg 		   = require('ffmpeg');
+var FfmpegCommand  = require('fluent-ffmpeg');
 
 // configuration ===========================================
     
@@ -27,9 +29,6 @@ mongoose.connect(db.url);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-// set up graphic and image magic
-
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json 

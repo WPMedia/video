@@ -11,7 +11,6 @@
           
           <div class="col-sm-12">
             Video Headlines and Summaries below.
-            {{imgSize}}
           </div>
           <br><br>
           <form class="col-md-12 form-group input-group-lg">
@@ -46,7 +45,7 @@
                   <td><a href="{{follow.url}}" target="_blank">{{ follow.articleData.title }}</a></td>
                   <td>{{ follow.articleData.summary }}</td>
                   <td>{{ follow.count }}</td>
-                  <td><a href="https://cdn.tutsplus.com/net/uploads/legacy/958_placeholders/placehold.gif" target="_blank"><img src="https://cdn.tutsplus.com/net/uploads/legacy/958_placeholders/placehold.gif" height="42" width="42"></a>
+                  <td><a href="/images/create/{{follow._id}}.png" target="_blank"><img src="/images/create/{{follow._id}}.png" height="auto" width="100%"></a>
                   <button class="btn btn-link" type="submit" ng-click="create(follow.articleData.summary, follow._id)">Create Image</button>
                   </td>
                   <td>

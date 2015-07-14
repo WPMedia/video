@@ -22,7 +22,7 @@ $scope.filterFunction = function(element) {
 // Get Shares and Save to DB
 $scope.captureHeadlines = function() {
     config ={};
-    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/5/7/7/7/1/all/all/5", config, {}).
+    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/7/7/7/1/all/all/2", config, {}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';
@@ -30,6 +30,7 @@ $scope.captureHeadlines = function() {
         .success(function(data){
           // window.console.log(data);
           $scope.headlines = data;
+          $scope.getHeadlines();
         })
         .error(function(data,status){
           // window.console.log(data + status);
@@ -66,6 +67,7 @@ $scope.resetHeadlines = function() {
   $http.delete(url)
     .success(function(data){
       window.console.log(data);
+      $scope.getHeadlines();
     })
     .error(function(data,status){
       window.console.log(data + status);
@@ -88,8 +90,7 @@ $scope.getSize = function(){
 $scope.resize = function(){
   $http.get('/gm/resize')
   .success(function(data){
-    $scope.imagInfo = (data);
-    window.console.log($scope.imagInfo);
+
   })
   .error(function(data){
     window.console.log(data + status);
@@ -102,33 +103,40 @@ $scope.create = function(text, id){
   var headline = {'id': id, 'text': text}
   $http.post('/gm/create', headline)
   .success(function(data){
-    $scope.imagInfo = (data);
-    window.console.log($scope.imagInfo);
+    $scope.getHeadlines();
   })
   .error(function(data){
     window.console.log(data + status);
   });
 }
 
-// Montage
+// MontageGM
 $scope.montage = function(){
-  console.log('montage');
+  // console.log('montage');
   $http.post('/gm/montage')
   .success(function(data){
-    $scope.imagInfo = (data);
-    window.console.log($scope.imagInfo);
   })
   .error(function(data){
     window.console.log(data + status);
   });
 }
 
-// Flip Image
+// Annotate Image
 $scope.annotate = function(){
   $http.get('/gm/annotate')
   .success(function(data){
-    $scope.imagInfo = (data);
-    window.console.log($scope.imagInfo);
+
+  })
+  .error(function(data){
+
+  });
+}
+
+// FFMpeg Video Create
+$scope.video = function(){
+  // console.log('montage');
+  $http.post('/ff/create')
+  .success(function(data){
   })
   .error(function(data){
     window.console.log(data + status);
