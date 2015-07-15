@@ -159,8 +159,8 @@ var command = ffmpeg();
                         var filePath = "public/images/final/montage.png" ; 
                         fs.unlinkSync(filePath);
 
-                        // creating an image for montage canvas
-                        // gm(1600, 1200, "#0000ff")
+                        // // creating an image for montage canvas
+                        // gm(1600, 1200, "#FFF")
                         // .write("public/images/final/montage.png", function (err) {
                         //   // chill out and relax
                         // });
