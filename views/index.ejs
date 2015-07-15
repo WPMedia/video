@@ -8,12 +8,28 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
           <h1 class="page-header">Dashboard - Video Headlines</h1>
-          
-          <div class="col-sm-12">
-            Video Headlines and Summaries below.
+          <div class="alert alert-info" role="alert" ng-show="alert">
+            Hold On - Doing Work...
+          </div>
+          <div class="row col-sm-12">
+            <p>
+              Use the buttons below to get headlines and create video.
+            </p>
+          </div>
+          <div class="row col-sm-12">
+            <p>
+              <button type="button" ng-click="captureHeadlines()" class="btn btn-primary">Capture Headlines</button>
+              <button type="button" ng-click="resetHeadlines()" class="btn btn-danger">Reset Headlines</button>
+              <button type="button" ng-click="montage()" class="btn btn-info">Create Montage</button>
+              <button type="button" ng-click="video()" class="btn btn-success">Create Video</button>
+            </p>
+            <!-- <p>  
+              <button type="button" ng-click="showMontage()" class="btn btn-warning">Show Montage</button>
+              <button type="button" ng-click="showVideo()" class="btn btn-warning">Show Video</button>
+            </p> -->
           </div>
           <br><br>
-          <form class="col-md-12 form-group input-group-lg">
+          <form class="row col-md-12 form-group input-group-lg">
             <input ng-model="query" type="text" class="form-control" placeholder="Search..." autofocus>
           </form>
 
@@ -56,6 +72,13 @@
             </table>
           </div>
         </div>
+      </div>
+
+      <div class="row col-sm-12" ng-show="viewMontage">
+        <img src="/images/final/montage.png" height="auto" width="100%">
+      </div>
+      <div class="row col-sm-12" ng-show="viewVideo">
+        <p>video</p>
       </div>
     </div>
 

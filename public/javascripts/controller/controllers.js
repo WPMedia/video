@@ -21,6 +21,7 @@ $scope.filterFunction = function(element) {
 
 // Get Shares and Save to DB
 $scope.captureHeadlines = function() {
+    $scope.alert = true;
     config ={};
     $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/7/7/7/1/all/all/2", config, {}).
       success(function(data) {
@@ -35,6 +36,7 @@ $scope.captureHeadlines = function() {
         .error(function(data,status){
           // window.console.log(data + status);
       });
+        $scope.alert = false;
     });
 }
 
@@ -112,6 +114,7 @@ $scope.create = function(text, id){
 
 // MontageGM
 $scope.montage = function(){
+  $scope.alert = true;
   // console.log('montage');
   $http.post('/gm/montage')
   .success(function(data){
@@ -119,6 +122,7 @@ $scope.montage = function(){
   .error(function(data){
     window.console.log(data + status);
   });
+  $scope.alert = false;
 }
 
 // Annotate Image
@@ -134,6 +138,7 @@ $scope.annotate = function(){
 
 // FFMpeg Video Create
 $scope.video = function(){
+  $scope.alert = true;
   // console.log('montage');
   $http.post('/ff/create')
   .success(function(data){
@@ -141,7 +146,18 @@ $scope.video = function(){
   .error(function(data){
     window.console.log(data + status);
   });
+  $scope.alert = false;
 }
+
+// Show Montage
+$scope.showMontage = function() {
+  $scope.viewMontage = true;
+};
+
+// Show Video
+$scope.showVideo = function() {
+  $scope.viewVideo = true;
+};
 
 
 
