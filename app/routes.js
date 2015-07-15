@@ -159,8 +159,8 @@ var command = ffmpeg();
                         var filePath = "public/images/final/montage.png" ; 
                         fs.unlinkSync(filePath);
 
-                        // // creating an image for montage canvas
-                        // gm(1600, 1200, "#FFF")
+                        // creating an image for montage canvas
+                        // gm(1600, 1200, "#0000ff")
                         // .write("public/images/final/montage.png", function (err) {
                         //   // chill out and relax
                         // });
@@ -204,7 +204,7 @@ var command = ffmpeg();
                     app.post('/ff/create', function(req, res) {
                         // make sure you set the correct path to your video file
                         ffmpeg()
-                          .addInput('public/images/create/*.png')
+                          .addInput('public/images/final/montage.png')
                           // loop for 5 seconds
                           .loop(5)
                           // using 25 fps
