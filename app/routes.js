@@ -5,8 +5,7 @@ var headlines = require('./models/headlines');
 
 // include GraphicsMagick and Filesystem
 var fs = require('fs-extra')
-var im = require('imagemagick');
-var gm = require('gm').subClass({imageMagick: true});
+var gm = require('gm');
 var gs = require('gs');
 var ffmpeg = require('fluent-ffmpeg');
 var command = ffmpeg();
