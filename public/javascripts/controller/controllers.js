@@ -23,7 +23,7 @@ $scope.filterFunction = function(element) {
 $scope.captureHeadlines = function() {
     $scope.alert = true;
     config ={};
-    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/7/7/7/1/all/all/2", config, {}).
+    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10", config, {}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';

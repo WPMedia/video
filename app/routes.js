@@ -203,7 +203,8 @@ var command = ffmpeg();
 
                     app.post('/ff/create', function(req, res) {
                         // make sure you set the correct path to your video file
-                        ffmpeg('public/images/final/montage.png')
+                        ffmpeg()
+                          .addInput('public/images/create/*.png')
                           // loop for 5 seconds
                           .loop(5)
                           // using 25 fps
