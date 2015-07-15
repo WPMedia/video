@@ -156,8 +156,8 @@ var command = ffmpeg();
                     app.post('/gm/montage', function(req, res) {
 
                         // delete old montage file
-                        var filePath = "public/images/final/montage.png" ; 
-                        fs.unlinkSync(filePath);
+                        // var filePath = "public/images/final/montage.png" ; 
+                        // fs.unlinkSync(filePath);
 
                         // // creating an image for montage canvas
                         // gm(1600, 1200, "#FFF")
