@@ -18,9 +18,12 @@
           </div>
           <div class="row col-sm-12">
             <p>
-              <button type="button" ng-click="captureHeadlines()" class="btn btn-primary">Capture Headlines</button>
               <button type="button" ng-click="resetHeadlines()" class="btn btn-danger">Reset Headlines</button>
+                  <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>  
+              <button type="button" ng-click="captureHeadlines()" class="btn btn-primary">Capture Headlines</button>
+                  <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>  
               <button type="button" ng-click="montage()" class="btn btn-info">Create Montage</button>
+                  <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>  
               <button type="button" ng-click="video()" class="btn btn-success">Create Video</button>
             </p>
             <!-- <p>  
@@ -38,11 +41,7 @@
               <thead>
                 <tr>
                   <th>
-                    <a href="#" ng-click="sortType = 'follow.articleData.title'; sortReverse = !sortReverse">
-                      Title
-                      <span ng-show="sortType == 'follow.articleData.title' && !sortReverse" class="fa fa-caret-up"></span>
-                      <span ng-show="sortType == 'follow.articleData.title' && sortReverse" class="fa fa-caret-down"></span>
-                    </a>
+                    Title
                   </th>
                   <th>
                     Summary
@@ -62,7 +61,9 @@
                   <td>{{ follow.articleData.summary }}</td>
                   <td>{{ follow.count }}</td>
                   <td><a href="/images/create/{{follow._id}}.png" target="_blank"><img src="/images/create/{{follow._id}}.png" height="auto" width="100%"></a>
-                  <button class="btn btn-link" type="submit" ng-click="create(follow.articleData.summary, follow._id)">Create Image</button>
+                  <div class="col-md-12 text-center"> 
+                    <button class="btn btn-link" type="submit" ng-click="create(follow.articleData.summary, follow._id)">Create Image</button>
+                  </div>
                   </td>
                   <td>
                     <button class="btn btn-link" type="submit" ng-click="removeHeadline(follow._id)"><i class="fa fa-times"></i></button>
