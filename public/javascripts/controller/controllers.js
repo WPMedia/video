@@ -149,15 +149,20 @@ $scope.video = function(){
   $scope.alert = false;
 }
 
-// Show Montage
-$scope.showMontage = function() {
-  $scope.viewMontage = true;
-};
 
-// Show Video
-$scope.showVideo = function() {
-  $scope.viewVideo = true;
-};
+// FFMpeg Video Filter
+$scope.videoFilter = function(){
+  $scope.alert = true;
+  // console.log('montage');
+  $http.post('/ff/filter')
+  .success(function(data){
+  })
+  .error(function(data){
+    window.console.log(data + status);
+  });
+  $scope.alert = false;
+}
+
 
 
 
