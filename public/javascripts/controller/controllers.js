@@ -23,7 +23,7 @@ $scope.filterFunction = function(element) {
 $scope.captureHeadlines = function() {
     $scope.alert = true;
     config ={};
-    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10", config, {}).
+    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10", {'headers': headers} config, {}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';
@@ -144,7 +144,8 @@ $scope.video = function(){
   .success(function(data){
   })
   .error(function(data){
-    window.console.log(data + status);
+    window.console.log(data);
+    $scope.alertError = data;
   });
   $scope.alert = false;
 }
@@ -159,9 +160,30 @@ $scope.videoFilter = function(){
   })
   .error(function(data){
     window.console.log(data + status);
+    $scope.alert = true;
   });
   $scope.alert = false;
 }
+
+
+// Get Secure PostShare Header
+$scope.getHeaders = function (callback){
+  $scope.headers = {};
+  var url = "/getSecureHeaders";
+  var twentyMinAgo = new Date().getTime() - 72000;
+  if(!headers.PS_HEADER || headers.PS_HEADER < twentyMinAgo){
+    //if header has expired get new headers from the server. 
+    //These must be constructed server side to protect our salt
+    $http.get(url).then(function (response) {
+        headers = response.data
+        callback(headers);
+        window.console.log(response.data);
+    });    
+  } else{ 
+    //if headers have not expired reuse them.
+    callback(headers);
+  }
+};
 
 
 

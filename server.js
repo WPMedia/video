@@ -12,6 +12,7 @@ var fs 			   = require('fs-extra');
 var gs 			   = require('gs');
 var ffmpeg 		   = require('ffmpeg');
 var FfmpegCommand  = require('fluent-ffmpeg');
+var crypto  	   = require('crypto');
 
 // configuration ===========================================
     

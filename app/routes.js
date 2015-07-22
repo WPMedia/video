@@ -9,6 +9,7 @@ var gm = require('gm');
 var gs = require('gs');
 var ffmpeg = require('fluent-ffmpeg');
 var command = ffmpeg();
+var crypto = require('crypto');
 
 
     module.exports = function(app) {
@@ -238,6 +239,17 @@ var command = ffmpeg();
                           .save('public/images/final/video.m4v');
                           //Success!
                           res.json({ message : 'successfully created video' });
+                    });
+
+        // PostShare Salt Route
+        
+                    app.get('/getSecureHeaders', function(req, res) {
+                            var psHeader = new Date().getTime().toString();
+                            var secureHeader = crypto.createHash("sha256")
+                                .update(psHeader + "pssalt1234")
+                                .digest("base64");
+                                //secureHeader = new Buffer(secureHeader).toString('base64')
+                            res.json({PS_HEADER: psHeader, SECURE_HEADER: secureHeader});
                     });
                              
         // Frontend routes 
