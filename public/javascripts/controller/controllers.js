@@ -9,6 +9,8 @@ userNotes.controller('notesCtrl', function ($scope, $http) {
 	$scope.sortType     = 'follow.articleData.title'; // set the default sort type
 	$scope.sortReverse  = false;  // set the default sort order
 	$scope.search   	= '';     // set the default search/filter term
+  $scope.psHeader = {};
+  $scope.secureHeader = {};
 	
 	$(function () {
 	  $('[data-toggle="tooltip"]').tooltip()
@@ -32,9 +34,8 @@ $scope.getHeaders = function (callback){
         headers = response.data
         // callback(headers);
         window.console.log(response.data);
-        psHeader = response.data.PS_HEADER;
-        secureHeader = response.data.SECURE_HEADER;
-        $scope.captureHeadlines(psHeader, secureHeader);
+        $scope.psHeader = response.data.PS_HEADER;
+        $scope.secureHeader = response.data.SECURE_HEADER;
     });    
   } else{ 
     //if headers have not expired reuse them.
@@ -46,7 +47,7 @@ $scope.getHeaders = function (callback){
 $scope.captureHeadlines = function(psHeader, secureHeader) {
     $scope.alert = true;
     config ={};
-    $http.get('https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10', {headers: {'PS_HEADER': psHeader, 'SECURE_HEADER':secureHeader}}).
+    $http.get('https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10', {headers: {'PS_HEADER': $scope.psHeader, 'SECURE_HEADER': $scope.secureHeader}}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';
@@ -69,6 +70,7 @@ $scope.getHeadlines = function() {
     $http.get("/api/headlines", config, {}).
       success(function(data) {
       $scope.headlines = data.all;
+      $scope.getHeaders();
     });
 }
 
