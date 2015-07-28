@@ -19,11 +19,34 @@ $scope.filterFunction = function(element) {
 	return element.name.match(/^Ma/) ? true : false;
 };
 
+
+// Get Secure PostShare Header
+$scope.getHeaders = function (callback){
+  var headers = {};
+  var url = "/getSecureHeaders";
+  var twentyMinAgo = new Date().getTime() - 72000;
+  if(!headers.PS_HEADER || headers.PS_HEADER < twentyMinAgo){
+    //if header has expired get new headers from the server. 
+    //These must be constructed server side to protect our salt
+    $http.get(url).then(function (response) {
+        headers = response.data
+        // callback(headers);
+        window.console.log(response.data);
+        psHeader = response.data.PS_HEADER;
+        secureHeader = response.data.SECURE_HEADER;
+        $scope.captureHeadlines(psHeader, secureHeader);
+    });    
+  } else{ 
+    //if headers have not expired reuse them.
+    // callback(headers);
+  }
+};
+
 // Get Shares and Save to DB
-$scope.captureHeadlines = function() {
+$scope.captureHeadlines = function(psHeader, secureHeader) {
     $scope.alert = true;
     config ={};
-    $http.get("https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10", {'headers': headers} config, {}).
+    $http.get('https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10', {headers: {'PS_HEADER': psHeader, 'SECURE_HEADER':secureHeader}}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';
@@ -164,28 +187,5 @@ $scope.videoFilter = function(){
   });
   $scope.alert = false;
 }
-
-
-// Get Secure PostShare Header
-$scope.getHeaders = function (callback){
-  $scope.headers = {};
-  var url = "/getSecureHeaders";
-  var twentyMinAgo = new Date().getTime() - 72000;
-  if(!headers.PS_HEADER || headers.PS_HEADER < twentyMinAgo){
-    //if header has expired get new headers from the server. 
-    //These must be constructed server side to protect our salt
-    $http.get(url).then(function (response) {
-        headers = response.data
-        callback(headers);
-        window.console.log(response.data);
-    });    
-  } else{ 
-    //if headers have not expired reuse them.
-    callback(headers);
-  }
-};
-
-
-
 
 });
