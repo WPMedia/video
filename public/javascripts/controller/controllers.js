@@ -164,7 +164,7 @@ $scope.annotate = function(){
 // FFMpeg Video Create
 $scope.video = function(){
   $scope.alert = true;
-  // console.log('montage');
+  window.console.log('video time');
   $http.post('/ff/create')
   .success(function(data){
   })
@@ -179,7 +179,7 @@ $scope.video = function(){
 // FFMpeg Video Filter
 $scope.videoFilter = function(){
   $scope.alert = true;
-  // console.log('montage');
+  window.console.log('filter time');
   $http.post('/ff/filter')
   .success(function(data){
   })

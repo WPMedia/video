@@ -207,9 +207,9 @@ var crypto = require('crypto');
                         ffmpeg()
                           .addInput('public/images/final/montage.png')
                           // loop for 5 seconds
-                          .loop(5)
+                          .loop(45)
                           // using 25 fps
-                          .fps(25)
+                          .fps(15)
                           // setup event handlers
                           .on('end', function() {
                             console.log('file has been converted succesfully');
@@ -226,12 +226,12 @@ var crypto = require('crypto');
                     app.post('/ff/filter', function(req, res) {
                         // make sure you set the correct path to your video file
                         ffmpeg('public/images/final/video.m4v')
-                          .videoFilters('fade=in:0:30', 'pad=640:480:0:40:violet')
+                          .videoFilters('fade=in:0:30', 'fade=out:0:50')
                           .on('end', function() {
                             console.log('file has been converted succesfully');
                           })
-                          .on('error', function(err, stdout, stderr) {
-                               console.log('error: ' + err.message);
+                          .on('error', function(err, stderr) {
+                               console.log('error: ' + err);
                                // console.log('stdout: ' + stdout);
                                // console.log('stderr: ' + stderr);
                            })
