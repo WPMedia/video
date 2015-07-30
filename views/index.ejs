@@ -2,11 +2,9 @@
 <html ng-app="notesApp"><html>
   <% include partials/nav.ejs %>  
   <body ng-controller="notesCtrl">
-  <% include partials/sidebar.ejs %>  
     <div class="container-fluid" ng-init="getHeadlines()">
       <div class="row">
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          
+        <div class="col-sm-12 col-sm-offset-0 col-md-12 col-md-offset-0 main">
           <h1 class="page-header">Dashboard - Video Headlines</h1>
           <div class="alert alert-info" role="alert" ng-show="alert">
             <i class="fa fa-refresh fa-spin"></i>
@@ -14,7 +12,8 @@
           </div>
           <div class="row col-sm-12">
             <p>
-              Use the buttons below to get headlines and create video.
+              Use the buttons below to get headlines and create video.  Click here to <a href="/images/final/montage.png" target="_blank">View Montage Image</a> or <a href="/images/final/video.m4v" target="_blank">View Video</a>.
+              <br><br>
             </p>
           </div>
           <div class="row col-sm-12">
@@ -26,8 +25,7 @@
               <button type="button" ng-click="montage()" class="btn btn-info">Create Montage</button>
                   <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>  
               <button type="button" ng-click="video()" class="btn btn-success">Create Video</button>
-                <!-- <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>  
-              <button type="button" ng-click="videoFilter()" class="btn btn-success">Create Video w/Filter</button> -->
+                <br><br>
             </p>
             <!-- <p>  
               <button type="button" ng-click="showMontage()" class="btn btn-warning">Show Montage</button>
@@ -76,13 +74,6 @@
             </table>
           </div>
         </div>
-      </div>
-
-      <div class="row col-sm-12" ng-show="viewMontage">
-        <img src="/images/final/montage.png" height="auto" width="100%">
-      </div>
-      <div class="row col-sm-12" ng-show="viewVideo">
-        <p>video</p>
       </div>
     </div>
 
