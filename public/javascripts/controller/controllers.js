@@ -47,7 +47,7 @@ $scope.getHeaders = function (callback){
 $scope.captureHeadlines = function(psHeader, secureHeader) {
     $scope.alert = true;
     config ={};
-    $http.get('https://postshare.washingtonpost.com/api/data/mostfollows/2015/6/1/7/7/1/all/all/10', {headers: {'PS_HEADER': $scope.psHeader, 'SECURE_HEADER': $scope.secureHeader}}).
+    $http.get('https://postshare.washingtonpost.com/api/data/mostfollows/2015/9/1/7/7/1/all/all/10', {headers: {'PS_HEADER': $scope.psHeader, 'SECURE_HEADER': $scope.secureHeader}}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';
