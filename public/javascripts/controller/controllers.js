@@ -33,7 +33,7 @@ $scope.getHeaders = function (callback){
     $http.get(url).then(function (response) {
         headers = response.data
         // callback(headers);
-        window.console.log(response.data);
+        // window.console.log(response.data);
         $scope.psHeader = response.data.PS_HEADER;
         $scope.secureHeader = response.data.SECURE_HEADER;
     });    
@@ -47,7 +47,7 @@ $scope.getHeaders = function (callback){
 $scope.captureHeadlines = function(psHeader, secureHeader) {
     $scope.alert = true;
     config ={};
-    $http.get('https://postshare.washingtonpost.com/api/data/mostfollows/2015/9/1/7/7/1/all/all/10', {headers: {'PS_HEADER': $scope.psHeader, 'SECURE_HEADER': $scope.secureHeader}}).
+    $http.get('https://postshare.washingtonpost.com/api/data/mostfollows/2015/'+$scope.month+'/'+$scope.day+'/7/7/1/all/all/'+$scope.numArticles+'', {headers: {'PS_HEADER': $scope.psHeader, 'SECURE_HEADER': $scope.secureHeader}}).
       success(function(data) {
       $scope.follows = data.sortedFollows;
       var url = '/api/captureHeadlines/';
@@ -56,6 +56,9 @@ $scope.captureHeadlines = function(psHeader, secureHeader) {
           // window.console.log(data);
           $scope.headlines = data;
           $scope.getHeadlines();
+          angular.forEach($scope.headlines, function(item){
+             console.log(item.technologies);  
+          })
         })
         .error(function(data,status){
           // window.console.log(data + status);
@@ -70,8 +73,22 @@ $scope.getHeadlines = function() {
     $http.get("/api/headlines", config, {}).
       success(function(data) {
       $scope.headlines = data.all;
+      // window.console.log(data.all);
       $scope.getHeaders();
     });
+}
+
+// Create Image for Headline
+$scope.create = function(text, id){
+  // window.console.log(text, id);
+  var headline = {'id': id, 'text': text}
+  $http.post('/gm/create', headline)
+  .success(function(data){
+    $scope.getHeadlines();
+  })
+  .error(function(data){
+    // window.console.log(data + status);
+  });
 }
 
 // Remove Headline
@@ -80,11 +97,11 @@ $scope.removeHeadline = function(value) {
 	var url = '/api/removeHeadline/'+ value;
 	$http.delete(url)
     .success(function(data){
-      window.console.log(data);
+      // window.console.log(data);
       $scope.getHeadlines();
     })
     .error(function(data,status){
-      window.console.log(data + status);
+      // window.console.log(data + status);
     });
 }
 
@@ -93,49 +110,37 @@ $scope.resetHeadlines = function() {
   var url = '/api/resetHeadlines/all';
   $http.delete(url)
     .success(function(data){
-      window.console.log(data);
+      // window.console.log(data);
       $scope.getHeadlines();
     })
     .error(function(data,status){
-      window.console.log(data + status);
+      // window.console.log(data + status);
     });
 }
 
 // Obtain Image Size
-$scope.getSize = function(){
-  $http.get('/gm/size')
-  .success(function(data){
-    $scope.imgSize = (data.image);
-    window.console.log($scope.imgSize);
-  })
-  .error(function(data){
-    window.console.log(data + status);
-  });
-}
+// $scope.getSize = function(){
+//   $http.get('/gm/size')
+//   .success(function(data){
+//     $scope.imgSize = (data.image);
+//     window.console.log($scope.imgSize);
+//   })
+//   .error(function(data){
+//     window.console.log(data + status);
+//   });
+// }
 
 // Resize Image
-$scope.resize = function(){
-  $http.get('/gm/resize')
-  .success(function(data){
+// $scope.resize = function(){
+//   $http.get('/gm/resize')
+//   .success(function(data){
 
-  })
-  .error(function(data){
-    window.console.log(data + status);
-  });
-}
+//   })
+//   .error(function(data){
+//     window.console.log(data + status);
+//   });
+// }
 
-// Create Image
-$scope.create = function(text, id){
-  window.console.log(text, id);
-  var headline = {'id': id, 'text': text}
-  $http.post('/gm/create', headline)
-  .success(function(data){
-    $scope.getHeadlines();
-  })
-  .error(function(data){
-    window.console.log(data + status);
-  });
-}
 
 // MontageGM
 $scope.montage = function(){
@@ -145,7 +150,7 @@ $scope.montage = function(){
   .success(function(data){
   })
   .error(function(data){
-    window.console.log(data + status);
+    // window.console.log(data + status);
   });
   $scope.alert = false;
 }
